@@ -61,17 +61,20 @@ public class NoteController {
 
 
     @RequestMapping(value = "note/delete/{id}")
-    private String deleteNote(@PathVariable(name = "id") String id, Authentication authentication, RedirectAttributes redirectAttributes, Model model) {
+    private String deleteNote(@PathVariable(name = "id") String id, Authentication authentication, Model model) {
         String username = authentication.getName();
         int userId = userMapper.getUser(username).getUserId();
         boolean isSuccess = Integer.valueOf(id) > 0;
         System.out.println("deleteNote: " + id);
         if (isSuccess) {
+            System.out.println("Calling noteservice to delete the note...");
             noteService.deleteNote(Integer.parseInt(id));
         }
         model.addAttribute("notes", noteService.getUserNotes(userId));
-
+        model.addAttribute("files", fileService.getUserFiles(userId));
         model.addAttribute("result", "success");
+        model.addAttribute("success", "true");
+        System.out.println("Going to the result page...");
         return "result";
     }
 }

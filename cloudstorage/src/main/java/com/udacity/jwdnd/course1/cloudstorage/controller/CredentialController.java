@@ -86,6 +86,7 @@ public class CredentialController {
             credentialsService.deleteCredential(Integer.valueOf(id));
         }
         model.addAttribute("result", "success");
+        model.addAttribute("success", "true");
         return "result";
     }
 }
